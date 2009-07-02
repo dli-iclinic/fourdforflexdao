@@ -7,7 +7,7 @@ Here is a description on how to setup your 4D and Flex Projects to use 4D for Fl
 
 = 4D side =
 
-Download the 4D for Flex DAO POP component, unzip and install it in your 4D application.
+Download the *4D for Flex DAO* POP component, unzip and install it in your 4D application.
 If you use *4D POP* you may just drag & drop into onto 4D POP and it'll be installed for you.
 To generate the VO classes for your tables simply click the Flex DAO icon on 4D POP. You may generate the .as VO class declaration for one individual table or for all tables.
 
