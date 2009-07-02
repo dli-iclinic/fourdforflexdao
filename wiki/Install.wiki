@@ -1,4 +1,5 @@
 #summary Installation Instructions.
+#labels Phase-Deploy
 
 = Introduction =
 
