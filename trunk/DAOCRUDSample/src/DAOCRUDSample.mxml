@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="800" height="700" xmlns:local="*" creationComplete="init();"
+	xmlns:fourD="http://www.4d.com/2007/mxml" xmlns:values="fourD.values.*">
+
+<!--
+Copyright (c) 2009 Pascal Information Technology Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+	This is a sample AIR Application that uses 4DForFlexDAO.
+	The app is a CRUD sample that interacts with the example 4D app 4D for Flex, which comes
+	with 4D for Flex package.
+	No change is made to 4D for Flex as everything is handled via 4D for Flex libraries which use
+	SQL Passthru to communicate with a 4D SQL Server backend
+	
+-->
+
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import com.flex44d.datamodel.DataModelBase;
+			import fourD.values.VImage;
+			import mx.collections.ArrayCollection;
+			import fourD.sql.SQLResultSet;
+			import fourD.sql.events.SQLEvent;
+			import fourD.sql.SQLService;
+			import fourD.controls.dataGridClasses.ImageRenderer;
+			import mx.core.IFlexDisplayObject;
+			import fourD.components.ConnectionDialog;
+			import fourD.components.ConnectionParameters;
+			import fourD.components.ConnectionDialogEvent;
+			import mx.managers.PopUpManager;
+
+			//---------------
+			//  version control
+			//---------------			
+			[Bindable]public static var version:String = '1.09.07.04a';
+			
+			//---------------
+			//  Variables
+			//---------------			
+			[Bindable]private var v11Connection:fourD.sql.SQLService;		// holds our connection to 4D V11 SQL backend
+			[Bindable]private var recordSet:ArrayCollection;				// keeps the current list of VO retrieved from 4D
+			
+			
+			//
+			// Initialize the application:
+			//      connect to 4D V11 SQL
+			//
+			private function init():void {
+				//
+				// use 4D for Flex Connection Dialog, we could use a custom dialog here, but the one that comes
+				//   with 4D for Flex is good enough
+				//
+				var pop:ConnectionDialog = new ConnectionDialog();		// instantiate the dialog box	
+				PopUpManager.addPopUp(pop,this,true);					// show the dialog box as a floating modal dialog
+				PopUpManager.centerPopUp(pop);							// center it
+				
+				//
+				// I don't know why 4D decided on a CHANGE event to indicate user clicking the Connect button
+				// I'd prefer a custom event type, but hey, it works, so let's use it
+				//
+				pop.addEventListener(Event.CHANGE,sqlConnectionHandler);// set up our listener to the dialog's Connect button
+			}
+			
+			//
+			// handle connection to 4D V11 SQL, after user has filled out the connection dialog
+			//
+			private function sqlConnectionHandler(e:ConnectionDialogEvent):void {
+				PopUpManager.removePopUp(e.target as IFlexDisplayObject);			// close the connection dialog
+				
+				//
+				// instantiate our connection to 4D V11 and populate the connection parameters
+				//
+				v11Connection = new fourD.sql.SQLService();							// instantiate it
+				v11Connection.host = e.connectionParameters.sqlServerAddress;		// set host (4D V11 SQL Server) address
+				v11Connection.port = e.connectionParameters.sqlServerPort;			// and port 4D V11 SQL Server listens to
+				v11Connection.userName = e.connectionParameters.userName;			// set username
+				v11Connection.userPassword = e.connectionParameters.userPassword;	// and password
+				
+				// Try to Connect/Login to 4D V11 SQL Server
+				v11Connection.connect();
+	
+				// Logout/Quit event listeners
+				
+				v11Connection.addEventListener(fourD.sql.events.SQLEvent.DISCONNECT, function (event:Event):void
+					{
+						// if the connection to 4D V11 SQL drops for any reason, we will simply quit
+						this.exit();
+					});
+				
+				v11Connection.addEventListener(FaultEvent.FAULT, function (event:FaultEvent):void
+					{
+						// in case we get any error while talking to 4D V11 SQL, we simply display the error message
+						Alert.show(event.fault.message);
+					});
+			}
+			
+			//
+			// handle the quick find box, query 4D as user types in
+			//
+			private function doQuickFind():void {
+				// query records based on surname
+				getRecords('Contact.surname like \''+quickFind.text+'%\'');
+			}
+			
+			//
+			// get records method
+			//     takes a query string and retrieves records from 4D V11 SQL
+			//
+			private function getRecords(query:String):void {
+				DataModelBase.getRecordList(Contact,query,getRecordsDone)
+			}
+			//
+			// got record list from 4D, handle it...
+			//
+			private function getRecordsDone(recs:ArrayCollection):void {
+				recordSet = recs;					// copy record list received from 4D to our record list handle (our handle is bound to the datagrid)
+				if (recs.length > 0) {				// did we get any record in our list
+					recordList.selectedIndex = -1;	// update datagrid so no records is pre-selected
+					contactRecord = new Contact();
+				}
+				
+			}
+			
+			//
+			// a row is selected on the datagrid, display record contents
+			//
+			private function showRecord():void {
+				// assign selected row on the datagrid to our 'current record' handle
+				contactRecord = Contact(recordList.selectedItem);
+			}
+ 
+ 			//
+ 			// handle Delete record button
+ 			//
+	 		private function deleteRecord():void {
+	 			// ask for user confirmation to really delete the record
+	 			Alert.show("Confirm delete "+contactRecord.surname+"?","Confirm Delete",Alert.YES+Alert.NO,null,doDeleteRecord);
+	 		}
+	 		private function doDeleteRecord(e:CloseEvent):void {
+	 			// now check if user confirmed delete
+	 			if (e.detail == Alert.YES) {
+	 				// user did confirm, so call delete record and set a callback function
+	 				contactRecord.deleteRecord(doDeleteRecordDone);
+	 			}
+	 		}
+	 		// callback function after record delete completes
+	 		private function doDeleteRecordDone():void {
+	 			// clear current record, get a new Contact instance
+	 			contactRecord = new Contact();
+	 			// redo the query
+	 			if (quickFind.text != '') doQuickFind() else getRecords('all');
+	 		}
+			
+		]]>
+	</mx:Script>
+	
+<!-- Contact Record -->
+	<local:Contact id="contactRecord" fourDConnection="{v11Connection}"/>
+	
+<!-- 
+	Bindings between form fields and record fields
+		here we set a binding between form and record fields
+		that will make it so any change to the form fields will automatically update the record fields
+		IT WILL NOT UPDATE THE RECORD IN THE DATABASE AUTOMATICALLY
+		you need to call updateRecord() for that to happen
+		which is done via the Update button 
+-->
+	<mx:Binding source="vfirstName.text" destination="contactRecord.firstName"/>
+	<mx:Binding source="vlastName.text" destination="contactRecord.surname"/>
+	<mx:Binding source="vAddress.text" destination="contactRecord.address"/>
+	<mx:Binding source="vCity.text" destination="contactRecord.city"/>
+	<mx:Binding source="vZIP.text" destination="contactRecord.zipCode"/>
+	
+<!-- The Button Bar at the top -->
+	<mx:ApplicationControlBar x="0" y="0" dock="true">
+		<mx:Button label="All Records" click="getRecords('all')"/>
+		<mx:Button label="Clear" click="contactRecord = new Contact();"/>
+		<mx:Button label="Insert" click="contactRecord.insertRecord();"/>
+		<!-- update button is enabled only if we have a current record selected -->
+		<mx:Button label="Update" enabled="{contactRecord.doWeHaveARecordLoaded()}" click="contactRecord.updateRecord();"/>
+		<!-- delete button is enabled only if we have a current record selected -->
+		<mx:Button label="Delete" enabled="{contactRecord.doWeHaveARecordLoaded()}" click="deleteRecord();"/>
+		<mx:TextInput change="doQuickFind();" id="quickFind" borderStyle="solid" cornerRadius="8" width="190" dropShadowEnabled="true" shadowDirection="right"/>
+		<mx:Button  icon="@Embed('window-close.png')" width="22" click="quickFind.text='';"/>
+		<mx:Label text="{version}" fontStyle="italic" fontSize="8" paddingLeft="20"/>
+	</mx:ApplicationControlBar>
+	
+	
+<!-- Our display page, a vertical divided box with a record form at the top and a record list grid at the bottom -->
+	<mx:VDividedBox x="0" y="0" height="100%" width="100%">
+
+		<!-- the record form at the top -->
+		<mx:HBox>
+			<mx:Form borderStyle="outset" height="236">
+				<mx:FormItem label="First Name" required="true">
+					<mx:TextInput id="vfirstName" width="250" text="{contactRecord.firstName}"/>
+				</mx:FormItem>
+				<mx:FormItem label="Last Name" required="true">
+					<mx:TextInput id="vlastName" width="250" text="{contactRecord.surname}"/>
+				</mx:FormItem>
+				<mx:FormItem label="Address">
+					<mx:TextArea id="vAddress" width="250" text="{contactRecord.address}"/>
+				</mx:FormItem>
+				<mx:FormItem label="ZIP">
+					<mx:TextInput id="vZIP" width="95" text="{contactRecord.zipCode}"/>
+				</mx:FormItem>
+				<mx:FormItem label="City">
+					<mx:TextInput id="vCity" width="250" text="{contactRecord.city}"/>
+				</mx:FormItem>
+				<mx:Label id="counter" text="{contactRecord.resultSet.nbRecords} records, {contactRecord.resultSet.nbLoadedRecords} loaded, {contactRecord.recordCollection.length} listed"
+					paddingTop="15" textAlign="center" width="327">
+					<mx:click>
+						<![CDATA[
+							counter.text = String(contactRecord.resultSet.nbRecords)+" records, "
+											+String(contactRecord.resultSet.nbLoadedRecords)+" loaded, "
+											+String(contactRecord.resultSet.length)+" listed";
+						]]>
+					</mx:click>
+				</mx:Label>
+			</mx:Form>
+			<mx:Form borderStyle="outset">
+				<mx:FormItem label="Photo">
+					<mx:Image id="contactPhoto" width="200" height="200" scaleContent="true" source="{DataModelBase.getVImageContent(contactRecord.photo)}"/>
+				</mx:FormItem>
+			</mx:Form>
+		</mx:HBox>
+		
+		<!-- the record list grid at the bottom -->
+		<mx:DataGrid id="recordList" dataProvider="{recordSet}" borderStyle="outset" change="showRecord();"
+			height="100%" width="100%" variableRowHeight="true">
+			<mx:columns>
+				<mx:DataGridColumn headerText="First Name" dataField="firstName"/>
+				<mx:DataGridColumn headerText="Last Name" dataField="surname"/>
+				<mx:DataGridColumn headerText="Address" dataField="address"/>
+				<mx:DataGridColumn headerText="ZIP" dataField="zipCode"/>
+				<mx:DataGridColumn headerText="City" dataField="city"/>
+				<mx:DataGridColumn headerText="Photo" dataField="photo" itemRenderer="fourD.controls.dataGridClasses.ImageRenderer"/>
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:VDividedBox>
+</mx:WindowedApplication>
