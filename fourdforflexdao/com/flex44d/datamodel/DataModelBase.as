@@ -24,20 +24,20 @@ THE SOFTWARE.
 
 package com.flex44d.datamodel
 {
+	import flash.display.Bitmap;
+	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
 	
 	import fourD.sql.SQLField;
 	import fourD.sql.SQLResultSet;
 	import fourD.sql.SQLService;
 	import fourD.sql.events.resultSet.SQLFetchResultCompleteEvent;
 	import fourD.sql.events.resultSet.SQLResultSetEvent;
-	import fourD.sql.events.statement.SQLInsertCompleteEvent;
 	import fourD.sql.events.statement.SQLSelectCompleteEvent;
 	import fourD.sql.events.statement.SQLStatementEvent;
 	import fourD.utils.Tracer;
+	import fourD.values.VImage;
 	
 	import mx.collections.ArrayCollection;
 	import mx.rpc.AsyncToken;
@@ -64,7 +64,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.05.04a";					// DataModelBase Version MUST be updated
+		public static var version:String = "1.09.07.04a";					// DataModelBase Version MUST be updated
 
 		//-------------------
 		// Events
@@ -236,7 +236,7 @@ package com.flex44d.datamodel
 		 * @param filterOptions
 		 * 
 		 */
-		public static function getRecordList(modelVO:DataModelBase,
+		public static function getRecordList(modelVO:Class,
 											 query:String,
 											 callback:Function=null,
 											 columnList:XML=null,
@@ -244,13 +244,16 @@ package com.flex44d.datamodel
 											 numOfRecords:int=-1,
 											 orderBy:String=''):AsyncToken {
 											 	
+			// instantiate a temporary VO object so we can use it to retrieve/instantiate records
+			var tempVO:* = new modelVO();
+											 	
 			// prepare and send SELECT request to 4D
-			var tok:AsyncToken = buildVOSelectFrom4D(modelVO.TableName_,query,(columnList)?columnList:modelVO.buildColumnList(),startRec,numOfRecords,orderBy);
+			var tok:AsyncToken = buildVOSelectFrom4D(tempVO.TableName_,query,(columnList)?columnList:tempVO.buildColumnList(),startRec,numOfRecords,orderBy);
 			
 			// now stuff some parameters into the AsyncToken so we can get to them when the request completes
 			
-			tok.callback = callback;										// pass along callback method
-			tok.VO = getDefinitionByName(getQualifiedClassName(modelVO));	// and the record VO definition 
+			tok.callback = callback;	// pass along callback method
+			tok.VO = modelVO;			// and the record VO definition 
 			
 			// listen on a SELECT_COMPLETE event, wait till 4D tells us the select has executed..
 			tok.addEventListener(SQLStatementEvent.SELECT_COMPLETE,selectCompleteHandler);
@@ -477,6 +480,22 @@ package com.flex44d.datamodel
 			recordIndex = -1;
 			resultSet = null;
 			recordCollection = null;
+		}
+		
+		/**
+		 * static utility method to extract the Bitmap from a VImage object.
+		 *  
+		 * @param pic a VImage object (4D picture field)
+		 * @return the VImage object Bitmap which can be used as the source for an mx:Image
+		 * 
+		 */
+		public static function getVImageContent(pic:VImage):Bitmap {
+			if (!pic) return null;
+			if (pic.numChildren > 0) {
+				var loader:Loader = pic.getChildAt(0) as Loader;
+				return (loader.content)?new Bitmap(Bitmap(loader.content).bitmapData.clone()):null;
+			} else return null;
+			
 		}
 		
 		//-------------------

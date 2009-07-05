@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../print.css" type="text/css" media="print">
+<meta content="FLEX44DUtils,com.flex44d.utils.FLEX44DUtils,byteArrayToImage,clearDateOnEscapeOrDeleteKey,dateTo4DFormat,dateToFlexFormat,dollarToNumber,formatDate,formatGridBooleanBullet,formatGridBooleanTick,formatGridBooleanYes,formatGridDate,formatGridDollar,formatGridTime" name="keywords">
+<title>com.flex44d.utils.FLEX44DUtils</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'FLEX44DUtils - 4D for Flex DAO API Documentation';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">4D for Flex DAO</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../all-classes.html')" href="../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../index-list.html')" href="../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../index.html?com/flex44d/utils/FLEX44DUtils.html&amp;com/flex44d/utils/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;FLEX44DUtils</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class FLEX44DUtils"); titleBar_setSubNav(false,false,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">com.flex44d.utils</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public final  class FLEX44DUtils</td>
+</tr>
+</table>
+<p></p>
+  his is a utility class with a bunch of static methods to provide some useful/cool utility functions.
+   
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#byteArrayToImage()">byteArrayToImage</a>(ba:ByteArray, img:Image):void</div>
+<div class="summaryTableDescription">[static]
+   Convert a ByteArray containg an image (pgn,jpg,gif) into a bitmap and assig to an Image control.</div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#clearDateOnEscapeOrDeleteKey()">clearDateOnEscapeOrDeleteKey</a>(e:KeyboardEvent):void</div>
+<div class="summaryTableDescription">[static]
+    Generic KeyUp event handler to use for DateFields.</div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#dateTo4DFormat()">dateTo4DFormat</a>(theDate:Date):String</div>
+<div class="summaryTableDescription">[static]
+   Converts a Flex date to 4D format (YYYYMMDD).</div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#dateToFlexFormat()">dateToFlexFormat</a>(theDate:String):Date</div>
+<div class="summaryTableDescription">[static]
+   Converts 4D formatted dates into Flex Date values
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#dollarToNumber()">dollarToNumber</a>(theDollar:String):Number</div>
+<div class="summaryTableDescription">[static]
+   Converts a currency formatted text into a number value
+   
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatDate()">formatDate</a>(theDate:Date):String</div>
+<div class="summaryTableDescription">[static]
+   Formats a date according to a globally set Date Format string
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridBooleanBullet()">formatGridBooleanBullet</a>(item:Object, dataField:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as a bullet
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridBooleanTick()">formatGridBooleanTick</a>(item:Object, dataField:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as a tick mark
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridBooleanYes()">formatGridBooleanYes</a>(item:Object, dataField:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Yes/No
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridDate()">formatGridDate</a>(item:Object, dataField:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Date
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridDollar()">formatGridDollar</a>(item:Object, gridCol:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Currency
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#formatGridTime()">formatGridTime</a>(item:Object, dataField:Object):String</div>
+<div class="summaryTableDescription">[static]
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Time
+    
+   </div>
+</td><td class="summaryTableOwnerCol">FLEX44DUtils</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="byteArrayToImage()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">byteArrayToImage</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function byteArrayToImage(ba:ByteArray, img:Image):void</code><p>
+   Convert a ByteArray containg an image (pgn,jpg,gif) into a bitmap and assig to an Image control.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">ba</span>:ByteArray</code> &mdash; the ByteArray with the image contents. must be one of the formats supported by Flex
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">img</span>:Image</code> &mdash; the Image control to assign the image to
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="clearDateOnEscapeOrDeleteKey()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">clearDateOnEscapeOrDeleteKey</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function clearDateOnEscapeOrDeleteKey(e:KeyboardEvent):void</code><p>
+    Generic KeyUp event handler to use for DateFields.
+    
+    </p><p>it allows using Esc to clear out a date value
+     
+    <span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">e</span>:KeyboardEvent</code> &mdash; the KeyboardEvent
+    
+    </td>
+</tr>
+</table>
+</div>
+<a name="dateTo4DFormat()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">dateTo4DFormat</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function dateTo4DFormat(theDate:Date):String</code><p>
+   Converts a Flex date to 4D format (YYYYMMDD).
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">theDate</span>:Date</code> &mdash; a Flex date value
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; a 4D formatted date string (YYYYMMDD)
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="dateToFlexFormat()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">dateToFlexFormat</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function dateToFlexFormat(theDate:String):Date</code><p>
+   Converts 4D formatted dates into Flex Date values
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">theDate</span>:String</code> &mdash; a 4D formatted date string (YYYYMMDD)
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Date</code> &mdash; a Flex date value
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="dollarToNumber()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">dollarToNumber</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function dollarToNumber(theDollar:String):Number</code><p>
+   Converts a currency formatted text into a number value
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">theDollar</span>:String</code> &mdash; the text formatted as a currency value ($xxx,xxx.xx)
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>Number</code> &mdash; the number corresponding to the text
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatDate()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatDate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatDate(theDate:Date):String</code><p>
+   Formats a date according to a globally set Date Format string
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">theDate</span>:Date</code> &mdash; a Flex date value
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; a formatted Date string
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridBooleanBullet()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridBooleanBullet</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridBooleanBullet(item:Object, dataField:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as a bullet
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">dataField</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the 'boolean' value as • or 'blank'
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridBooleanTick()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridBooleanTick</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridBooleanTick(item:Object, dataField:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as a tick mark
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">dataField</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the 'boolean' value as √ or 'blank'
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridBooleanYes()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridBooleanYes</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridBooleanYes(item:Object, dataField:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Yes/No
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">dataField</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the 'boolean' value as Yes or 'blank'
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridDate()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridDate</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridDate(item:Object, dataField:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Date
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">dataField</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the formatted Date string
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridDollar()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridDollar</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridDollar(item:Object, gridCol:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Currency
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">gridCol</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the Currency formatted string
+   
+   </td>
+</tr>
+</table>
+</div>
+<a name="formatGridTime()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">formatGridTime</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public static function formatGridTime(item:Object, dataField:Object):String</code><p>
+   Utility function to use as <b>labelFunction</b> parameter on a Object that formats a value as Time
+    
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">item</span>:Object</code> &mdash; the dataGrid row item
+   </td>
+</tr>
+<tr>
+<td class="paramSpacer">&nbsp;</td>
+</tr>
+<tr>
+<td width="20px"></td><td><code><span class="label">dataField</span>:Object</code> &mdash; the dataGrid column
+   </td>
+</tr>
+</table>
+<p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code> &mdash; the formatted Time string
+   
+   </td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->
