@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="800" height="700" xmlns:local="*" creationComplete="init();"
-	xmlns:fourD="http://www.4d.com/2007/mxml" xmlns:values="fourD.values.*" viewSourceURL="srcview/index.html">
+	xmlns:fourD="http://www.4d.com/2007/mxml" xmlns:values="fourD.values.*" viewSourceURL="srcview/index.html" currentState="startUp">
 
 <!--
 Copyright (c) 2009 Pascal Information Technology Ltd.
@@ -52,7 +52,7 @@ THE SOFTWARE.
 			//---------------
 			//  version control
 			//---------------			
-			[Bindable]public static var version:String = '1.09.07.04a';
+			[Bindable]public static var version:String = '1.09.07.04b';
 			
 			//---------------
 			//  Variables
@@ -62,10 +62,9 @@ THE SOFTWARE.
 			
 			
 			//
-			// Initialize the application:
-			//      connect to 4D V11 SQL
+			// Connect to 4D V11 SQL
 			//
-			private function init():void {
+			private function connectTo4D():void {
 				//
 				// use 4D for Flex Connection Dialog, we could use a custom dialog here, but the one that comes
 				//   with 4D for Flex is good enough
@@ -207,7 +206,7 @@ THE SOFTWARE.
 	
 	
 <!-- Our display page, a vertical divided box with a record form at the top and a record list grid at the bottom -->
-	<mx:VDividedBox x="0" y="0" height="100%" width="100%">
+	<mx:VDividedBox x="0" y="0" height="100%" width="100%" id="vdividedbox1">
 
 		<!-- the record form at the top -->
 		<mx:HBox>
@@ -258,4 +257,18 @@ THE SOFTWARE.
 			</mx:columns>
 		</mx:DataGrid>
 	</mx:VDividedBox>
+	
+		
+<!-- Use an initial state to display usage instructions -->
+	<mx:states>
+		<mx:State name="startUp">
+			<mx:RemoveChild target="{vdividedbox1}"/>
+			<mx:AddChild position="lastChild">
+				<mx:Canvas x="33.5" y="47" borderStyle="solid" borderThickness="4" borderColor="#333333" height="315">
+					<mx:Text x="50" y="10" text="This demo uses 4DforFlex.4DB database. Make sure it is up and running.&#xd;&#xd;In the connect dialog use:&#xd;- username = sqluser&#xd;- password = sql&#xd;&#xd;This AIR application comes with source code.&#xd;To view the source code right-click anywhere on the window and select 'View Source'.&#xd;&#xd;Enjoy!&#xd;&#xd;Julio" fontWeight="bold" fontSize="14"/>
+					<mx:Button x="613" y="270" label="Continue" fontSize="14" color="#333333" click="currentState=&quot;&quot;;connectTo4D();"/>
+				</mx:Canvas>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
 </mx:WindowedApplication>
