@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="800" height="700" xmlns:local="*" creationComplete="init();"
-	xmlns:fourD="http://www.4d.com/2007/mxml" xmlns:values="fourD.values.*">
+	xmlns:fourD="http://www.4d.com/2007/mxml" xmlns:values="fourD.values.*" viewSourceURL="srcview/index.html">
 
 <!--
 Copyright (c) 2009 Pascal Information Technology Ltd.
