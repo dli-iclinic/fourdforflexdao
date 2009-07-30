@@ -1,0 +1,8 @@
+#summary recent project updates.
+#labels Featured
+
+= Recent Updates =
+
+Jul 29: update the Pop component:
+  * add source code
+  * change picture fields to use VImage as field type on Flex
