@@ -52,7 +52,7 @@ THE SOFTWARE.
 			//---------------
 			//  version control
 			//---------------			
-			[Bindable]public static var version:String = '1.09.07.04b';
+			[Bindable]public static var version:String = '1.09.07.31a';
 			
 			//---------------
 			//  Variables
@@ -175,7 +175,7 @@ THE SOFTWARE.
 	
 <!-- Contact Record -->
 	<local:Contact id="contactRecord" fourDConnection="{v11Connection}"/>
-	
+
 <!-- 
 	Bindings between form fields and record fields
 		here we set a binding between form and record fields
