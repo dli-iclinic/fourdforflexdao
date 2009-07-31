@@ -56,6 +56,9 @@ package com.flex44d.datamodel
 	 *  - if multiple records retrieved in a getRecord() call, populate record collection
 	 * 		and use the first record to populate fields.
 	 * 
+	 * 3.09.07.31a - julio, July 31, 2009
+	 *  - retrieve entire result set, do not limit it to preFetch
+	 * 
 	 *********************************************************/	
 	
 	[Bindable]
@@ -64,7 +67,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.07.04a";					// DataModelBase Version MUST be updated
+		public static var version:String = "1.09.07.31a";					// DataModelBase Version MUST be updated
 
 		//-------------------
 		// Events
@@ -255,6 +258,9 @@ package com.flex44d.datamodel
 			tok.callback = callback;	// pass along callback method
 			tok.VO = modelVO;			// and the record VO definition 
 			
+			// now initialize a collection of record VO instances.
+			tok.recordCollection = new ArrayCollection();
+			
 			// listen on a SELECT_COMPLETE event, wait till 4D tells us the select has executed..
 			tok.addEventListener(SQLStatementEvent.SELECT_COMPLETE,selectCompleteHandler);
 			
@@ -277,9 +283,13 @@ package com.flex44d.datamodel
 				return; 		// and we are done here...
 			}
 			
+			e.resultSet.autoSubmitChanges = false;						// disable auto commit
+			
+			e.resultSet.fetchResult(0,e.resultSet.nbRecords);			// now fetch all records
+			
 			// we do have records to fetch, so now wait for record fetch to complete
 			tok.addEventListener(SQLResultSetEvent.FETCH_RESULT_COMPLETE,fetchCompleteHandler);
-			trace('SELECT: ','nbLoadedRecords:',e.resultSet.nbLoadedRecords,', nbRecords:',e.resultSet.nbRecords);
+//			trace('SELECT: ','nbLoadedRecords:',e.resultSet.nbLoadedRecords,', nbRecords:',e.resultSet.nbRecords);
 		}
 		
 		// FETCH_RESULT_COMPLETE handler, use 4D's resultSet to instantiate a collection of record VOs
@@ -291,12 +301,9 @@ package com.flex44d.datamodel
 			var cls:Class = tok.VO as Class;							// the record VO class 
 			var callback:Function = tok.callback;						// a user specified callback method
 			var resultSet:SQLResultSet = SQLResultSet(tok.resultSet); 	// the resultSet from 4D
+			var recordCollection:ArrayCollection = tok.recordCollection;	// the VO ArrayCollection we'll build
 			
-			resultSet.autoSubmitChanges = false;						// disable auto commit
-			
-			// now build a collection of record VO instances and send that back to the user.
-			var recordCollection:ArrayCollection = new ArrayCollection();
-			trace('FETCH: ','nbLoadedRecords:',resultSet.nbLoadedRecords,', nbRecords:',resultSet.nbRecords);
+//			trace('FETCH: ','nbLoadedRecords:',resultSet.nbLoadedRecords,', nbRecords:',resultSet.nbRecords);
 			//----------------------
 			// there's a bug in 4D for Flex where more records are fetched than indicated by the preFetch property
 			// and you cannot rely on nbLoadedRecords.
@@ -325,14 +332,18 @@ package com.flex44d.datamodel
 				DataModelBase(obj).recordCollection = recordCollection;
 			}
 			
-			// call user's callback method if set.
-			if (callback != null) callback(recordCollection);
-			
-			//----------------------
-			// there's a bug in 4D for Flex where more records are fetched than indicated by the preFetch property
-			// so we remove our listener to avoid retrieving ALL records
-			//----------------------			
-			tok.removeEventListener(SQLResultSetEvent.FETCH_RESULT_COMPLETE,fetchCompleteHandler);
+			if (recordCollection.length >= resultSet.nbRecords) {
+				// call user's callback method if set.
+				if (callback != null) callback(recordCollection);
+				
+				//----------------------
+				// there's a bug in 4D for Flex where FETCH_RESULT_COMPLETE gets called one extra time
+				// so we remove our listener to avoid calling callback method twice or dispatching LOADED 2wice
+				//----------------------			
+				tok.removeEventListener(SQLResultSetEvent.FETCH_RESULT_COMPLETE,fetchCompleteHandler);
+				
+				tok.dispatchEvent(new Event(LOADED));	// dispatch records loaded event
+			}
 		}
 				
 		
@@ -551,8 +562,8 @@ package com.flex44d.datamodel
 				if (startRec > 0) builtSQL+= " OFFSET "+String(startRec);
 				if (numOfRecords >0) builtSQL+= " LIMIT "+String(numOfRecords);
 				
-				trace();
-				Tracer.traceInformation('sql: '+builtSQL);
+//				trace(builtSQL);
+				Tracer.traceInformation('buildVOSelectFrom4D: select '+builtSQL);			// in case user wants to use Tracer we log all our select calls
 
 				return _v11Connection.execute('select '+builtSQL);
 		 }
