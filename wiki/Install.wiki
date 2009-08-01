@@ -19,7 +19,7 @@ If you do not use 4D POP you can still use the component. Simply put a copy or a
 
 Download *fourdforflexdao.swc* and make it accessible to your project. If you are already using a 4DForFlex directory inside your workspace you may just drop *fourdforflexdao.swc* into it and it'll be available to all your projects.
 
-The auto generated VO class declarations assume that all VO .as files are located in com.flex44d.dao, so you may need to add those folders to your project. _(you may change that in the 4D POP component)_
+The auto generated VO class declarations assume that all VO .as files are located in com.flex44d.dao, so you may need to add those folders to your project. _(you may change that on the 4D POP component)_
 
 Happy coding
 
