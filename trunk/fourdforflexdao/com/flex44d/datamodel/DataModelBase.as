@@ -59,6 +59,9 @@ package com.flex44d.datamodel
 	 * 3.09.07.31a - julio, July 31, 2009
 	 *  - retrieve entire result set, do not limit it to preFetch
 	 * 
+	 * 3.09.08.02a - julio, Aug 02, 2009
+	 *  - update ASDoc documentation
+	 * 
 	 *********************************************************/	
 	
 	[Bindable]
@@ -67,7 +70,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.07.31a";					// DataModelBase Version MUST be updated
+		public static var version:String = "1.09.08.02a";					// DataModelBase Version MUST be updated
 
 		//-------------------
 		// Events
@@ -93,7 +96,7 @@ package com.flex44d.datamodel
 		public var PrimaryKey_:String;
 		
 		/**
-		 * 4D SQL Connection
+		 * 4D SQL Service pointing to a fourd.SQLService instance.
 		 */
 		public function set fourDConnection(v:SQLService):void {
 			_v11Connection = v;
@@ -157,16 +160,15 @@ package com.flex44d.datamodel
 		 * Retrieve a record from 4D and populate its instance variables.
 		 *  
 		 * @param callback callback function that gets called when the record is loaded.
-		 * @param recordID primary key value for the record to retrieve (optional, it defaults to the rowID property)
-		 * @param query query string for the record to retrieve (optional, it defaults to the rowID property)
 		 * 
 		 * <p>callback function signature is</p>
 		 * <pre>callback(recordData:XML):void<pre>
 		 * 
 		 * @param recordID optional record ID, if specified the record is retrieved by querying on its primary key field
+		 * @param query query string for the record to retrieve (optional)
 		 * 
 		 */
-		public function getRecord(callback:Function=null, recordID:String=null, query:String=null):void
+		public function getRecord(callback:Function=null, recordID:*=null, query:String=null):void
 		{
 			var tok:AsyncToken;
 			
@@ -177,7 +179,7 @@ package com.flex44d.datamodel
 					return;
 				} else {
 					// getting a record based on its primary key
-					tok=buildVOSelectFrom4D(TableName_,TableName_+'.'+PrimaryKey_+';=;'+recordID,buildColumnList());
+					tok=buildVOSelectFrom4D(TableName_,TableName_+'.'+PrimaryKey_+' = '+recordID.toString(),buildColumnList());
 				}
 			} else if (query) {
 					// getting a record based on a query
@@ -223,11 +225,17 @@ package com.flex44d.datamodel
 
 		
 		/**
-		 * Retrieve a list of records using a query string 
-		 * @param query
+		 * Retrieve a list of records using a query string.
+		 * 
+		 * @param modelVO the VO class corresponding to the records to be retrieved.
+		 * <p>the resulting record list will be an ArrayCollection populated with instances of the modelVO class</p>
+		 * 
+		 * @param query the query string to select and retrieve the records desired.
+		 * <p>this must be a valid <i>SQL Where</i> clause, without the <i>where<i> prefix, added internally.
+		 * 
 		 * @param callback callback function that gets called when the record is loaded.
 		 * 
-		 * <p>callback function signature is</p>
+		 * <p>the callback function signature must be</p>
 		 * <pre>callback(resultSet:ArrayCollection):void<pre>
 		 * <i>(see Flex44DInterface.getRecordList() for details)</i>
 		 * 
@@ -236,7 +244,7 @@ package com.flex44d.datamodel
 		 * 
 		 * 	@param startRec the starting record number to retrieve, used for paging.
 		 * 	@param numOfRecords the number of records to retrieve, the default -1 will retrieve all records in the resulting query.
-		 * @param filterOptions
+		 *  @param orderBy a <i>SQL Order by</i> clause, w/o the <i>order by</i> prefix.
 		 * 
 		 */
 		public static function getRecordList(modelVO:Class,
