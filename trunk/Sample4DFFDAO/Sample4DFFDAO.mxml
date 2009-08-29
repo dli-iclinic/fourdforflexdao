@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#FFFFFF, #FFFFFF]"
+	xmlns:DAO="com.flex44d.DAO.*"
+	xmlns:fourD="http://www.4d.com/2007/mxml">
+
+	<mx:Script>
+		<![CDATA[
+			import com.flex44d.DAO.PlayerExtended;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import com.flex44d.datamodel.DataModelBase;
+			import mx.rpc.events.FaultEvent;
+			import fourD.sql.events.SQLEvent;
+			
+			private function handleConnect(e:SQLEvent):void {
+				var fieldList:XML = <columns>
+										<column name="ID">{Team.kID}</column>
+										<column name="Name">{Team.kName}</column>
+									</columns>;
+				DataModelBase.getRecordList(Team,'',gotTeamRecords,fieldList);
+			}
+			private function gotTeamRecords(recs:ArrayCollection):void {
+				teamList.dataProvider = recs;
+			}
+			
+			
+			private function oops(e:FaultEvent):void {
+				Alert.show("oops:"+e.fault);
+			}
+			
+			//
+			// use selected a team on the list, show players
+			//
+			private function teamSelected():void {
+				if (teamList.selectedItem) {
+					var query:String = "ID_Current_Team = "+teamList.selectedItem.ID;
+					DataModelBase.getRecordList(PlayerExtended,query,gotPlayers);
+				}
+			}
+			private function gotPlayers(recs:ArrayCollection):void {
+				playerList.dataProvider = recs;
+			}
+		]]>
+	</mx:Script>
+	
+	
+	<!-- 
+		declare 4DFF SQLService object which we will use to communicate with 4D V11 SQL
+	-->
+	<fourD:SQLService id="my4D"
+		host="localhost"
+		userName="sqluser"
+		userPassword="sql"
+		autoConnect="true"
+		connect="handleConnect(event);"
+		fault="oops(event)"
+		showBusyCursor="true"/>
+
+	
+	<!-- 
+		declare VOs for Team & Player
+	-->
+	<DAO:Team id="myTeam" fourDConnection="{my4D}"/>
+	<DAO:Player id="myPlayer" fourDConnection="{my4D}"/>
+	
+	<mx:Label x="0" y="0" text="4D for Flex DAO Sample" fontSize="27" fontWeight="bold"/>
+	<mx:Label y="39" text="{teamList.selectedItem.Name}" fontSize="27" fontWeight="bold" horizontalCenter="0" textAlign="center"/>
+	<mx:HDividedBox x="10" y="86" width="100%" height="100%">
+		<mx:VBox width="25%" height="100%">
+			<mx:Label text="Pick a Team" fontWeight="bold" fontSize="14"/>
+			
+			<!-- 
+				the Teams list.
+				when a line is selected or the line selection changes we call method teamSelected().
+			-->
+			<mx:List id="teamList" height="100%" width="100%" labelField="Name" click="teamSelected();"
+				/>
+
+		</mx:VBox>
+
+		<mx:DataGrid id="playerList" height="100%" width="100%" variableRowHeight="true">
+			<mx:columns>
+				<mx:DataGridColumn dataField="First_Name" headerText="First Name" width="70"/>
+				<mx:DataGridColumn dataField="Name" headerText="Last Name" width="70"/>
+				<mx:DataGridColumn dataField="Age" headerText="Age" width="30"/>
+				<mx:DataGridColumn dataField="PlayerPosition" headerText="Position" width="50" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="YOBSQL" headerText="Birth Year" width="50" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="FullName" headerText="Full Name" width="70" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="Bats" headerText="Bats" width="30"/>
+				<mx:DataGridColumn dataField="Throws" headerText="Throws" width="30"/>
+				<!-- 
+					use 4DFF ImageRenderer to handle picture field PHOTO
+				-->
+				<mx:DataGridColumn dataField="Photo" headerText="Photo" width="200" itemRenderer="fourD.controls.dataGridClasses.ImageRenderer"/>
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:HDividedBox>
+
+</mx:Application>
