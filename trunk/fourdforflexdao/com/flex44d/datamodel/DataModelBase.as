@@ -70,7 +70,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.08.02a";					// DataModelBase Version MUST be updated
+		public static var version:String = "1.09.08.18a";					// DataModelBase Version MUST be updated
 
 		//-------------------
 		// Events
@@ -100,6 +100,7 @@ package com.flex44d.datamodel
 		 */
 		public function set fourDConnection(v:SQLService):void {
 			_v11Connection = v;
+			_v11Connection.prefetch = -1;				// try to retrieve all records all the time, no paging for now (does not seem to work though!)
 		}
 		
 		
@@ -318,7 +319,14 @@ package com.flex44d.datamodel
 			// so we use preFetch to loop on the # of records retrieved
 			// nbLoadedRecords is also bogus when NO record is found... it always returns the preFetch, when no record was retrieved.
 			//----------------------
-			var recordCount:int = (resultSet.nbLoadedRecords < resultSet.prefetch)?resultSet.nbLoadedRecords:resultSet.prefetch;
+			var recordCount:int;
+			if (resultSet.prefetch < 0) {
+				recordCount = resultSet.nbRecords;
+			} else if (resultSet.nbLoadedRecords < resultSet.prefetch) {
+				recordCount = resultSet.nbLoadedRecords;
+			} else recordCount = resultSet.prefetch;
+			
+			// now build our VO Collection, when 4D implements direct support for fetching VO objects we can skip this step
 			for (var i:uint=0; (i<recordCount) && (i<resultSet.length);i++) {
 				var rec:Object = resultSet.getItemAt(i);	// get this one record
 				if (rec == null) {trace (i);break;}			// make sure it is a valid one....
@@ -545,32 +553,38 @@ package com.flex44d.datamodel
 				for each (var col:XML in columnList.children()) {
 					if (builtSQL == "") builtSQL+=String(col.valueOf()) else builtSQL+=', '+String(col.valueOf());
 					if (String(col.@name) != '') builtSQL+=" as "+String(col.@name);
-					var parts:Array = String(col.valueOf()).split('.');
-					if (String(parts[0]).toLowerCase() != tableName.toLowerCase() ) {
-						// field is from a related table, so we need to add join to the sql statement
-						var joinTable:String = String(parts[0]).toUpperCase();
-						if (fromString.indexOf(joinTable) <= 0) { // test if we've joined this table already
-							// new join
-							fromString += ', '+joinTable;
-/* 							var index:int = relateOneTables.indexOf(joinTable);
-							if (index >= 0) {
-								if ((queryData == null ) || (queryData == 'all') || (queryData == '')) joinString = ' where '+ browseTable+'.'+relateManyFields[index] + '=' + joinTable+'.'+relateOneFields[index]
-								else joinString += ' and '+ browseTable+'.'+relateManyFields[index] + '=' + joinTable+'.'+relateOneFields[index];						
+					// if not a calculated field, see if we need a Join
+					if (col.name() != 'function') {	
+						var parts:Array = String(col.valueOf()).split('.');
+						if (String(parts[0]).toLowerCase() != tableName.toLowerCase() ) {
+							// field is from a related table, so we need to add join to the sql statement
+							var joinTable:String = String(parts[0]).toUpperCase();
+							if (fromString.indexOf(joinTable) <= 0) { // test if we've joined this table already
+								// new join
+								fromString += ', '+joinTable;
+								if (String(col.@joinFK) != '') {
+									// this field has special join instructions, add it to the join string
+									joinString += ' '+String(col.@joinFK)+'='+String(col.@joinPK);
+								}
 							}
- */						}
+						}
 					}
 				}
 				
 				builtSQL+= fromString;
 	   			
-				if ((queryString != null ) && (queryString != '') && (queryString != 'all')) builtSQL+= ' where '+queryString;
+				if ((queryString != null ) && (queryString != '') && (queryString != 'all')) { // do we have a query string?
+					builtSQL+= ' where '+queryString;						// add it to the select statement
+					if (joinString != '') builtSQL+= ' and '+joinString; 	// and add any special join, if we have any
+					
+				} else if (joinString != '') builtSQL+= ' where '+joinString; // if no where but we do have a special join, add it
 				
-				builtSQL+= joinString + orderBy;
+				builtSQL+= orderBy; // add order by clause
 				
 				if (startRec > 0) builtSQL+= " OFFSET "+String(startRec);
 				if (numOfRecords >0) builtSQL+= " LIMIT "+String(numOfRecords);
 				
-//				trace(builtSQL);
+				trace(builtSQL);
 				Tracer.traceInformation('buildVOSelectFrom4D: select '+builtSQL);			// in case user wants to use Tracer we log all our select calls
 
 				return _v11Connection.execute('select '+builtSQL);
@@ -595,11 +609,17 @@ package com.flex44d.datamodel
 			for each (var field:XML in _tableDescription.field) {
 				if (isCalculatedField(field)) {
 					var expression:String = String(field.@formula);
-					col = <column>{'['+expression+']'}</column>;
+					col = <function>{expression}</function>;
 				} else {
 					col = <column>{String(field.@longname)}</column>;
 				}
-				col.@name = field.@name;
+				if ((String(field.@joinFK) != '') && (String(field.@joinPK) != '')) {
+					// special join instructions for this field, send them along
+					col.@joinFK = field.@joinFK;
+					col.@joinPK = field.@joinPK;
+				}
+
+				col.@name = field.@name; 		// set field name
 				columnList.appendChild(col);
 				
 			}
