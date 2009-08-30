@@ -62,6 +62,10 @@ package com.flex44d.datamodel
 	 * 3.09.08.02a - julio, Aug 02, 2009
 	 *  - update ASDoc documentation
 	 * 
+	 * 3.09.08.30a - julio, Aug 30, 2009
+	 *  - update ASDoc documentation
+	 *  - fix bug with calculated columns
+	 * 
 	 *********************************************************/	
 	
 	[Bindable]
@@ -70,7 +74,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.08.18a";					// DataModelBase Version MUST be updated
+		public static var version:String = "1.09.08.30a";					// DataModelBase Version MUST be updated
 
 		//-------------------
 		// Events
@@ -241,7 +245,16 @@ package com.flex44d.datamodel
 		 * <i>(see Flex44DInterface.getRecordList() for details)</i>
 		 * 
 		 * 	@param columnList custom column list to retrieve, XML listing the columns to retrieve.
-		 * <p>if informed, only the columns listed will be retrieve instead of the whole record</p>
+		 * <p>The field/column list XML should be in the format:
+		 * <pre>
+		 *    &lt;columns&gt;
+		 *      &lt;column&gt;table.field&lt;/column&gt;  -- select a field value
+ 		 *      &lt;function&gt;sql expression&lt;/function&gt;  -- calculated value from a SQL expression
+		 *      ...
+		 *    &lt;/columns&gt;
+		 * </pre>
+		 * </p>
+		 * <p>if informed, only the columns listed will be retrieved instead of the whole record</p>
 		 * 
 		 * 	@param startRec the starting record number to retrieve, used for paging.
 		 * 	@param numOfRecords the number of records to retrieve, the default -1 will retrieve all records in the resulting query.

@@ -89,7 +89,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 </td><td class="summaryTableOwnerCol">DataModelBase</td>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#version">version</a> : String = "1.09.08.02a"<div class="summaryTableDescription">[static]</div>
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#version">version</a> : String = "1.09.08.30a"<div class="summaryTableDescription">[static]</div>
 </td><td class="summaryTableOwnerCol">DataModelBase</td>
 </tr>
 </table>
@@ -315,7 +315,7 @@ showHideInherited();
 </tr>
 </table>
 <div class="detailBody">
-<code>public static var version:String = "1.09.08.02a"</code>
+<code>public static var version:String = "1.09.08.30a"</code>
 </div>
 <a name="constructorDetail"></a>
 <div class="detailSectionHeader">Constructor detail</div>
@@ -453,7 +453,16 @@ showHideInherited();
 </tr>
 <tr>
 <td width="20px"></td><td><code><span class="label">columnList</span>:XML</code> (default = <code>null</code>)<code></code> &mdash; custom column list to retrieve, XML listing the columns to retrieve.
-   <p>if informed, only the columns listed will be retrieve instead of the whole record</p>
+   <p>The field/column list XML should be in the format:
+   <pre>
+      &lt;columns&gt;
+        &lt;column&gt;table.field&lt;/column&gt;  -- select a field value
+         &lt;function&gt;sql expression&lt;/function&gt;  -- calculated value from a SQL expression
+        ...
+      &lt;/columns&gt;
+   </pre>
+   </p>
+   <p>if informed, only the columns listed will be retrieved instead of the whole record</p>
    
     </td>
 </tr>
