@@ -11,7 +11,16 @@
 			import com.flex44d.datamodel.DataModelBase;
 			import mx.rpc.events.FaultEvent;
 			import fourD.sql.events.SQLEvent;
+
+			//---------------
+			//  version control
+			//---------------			
+			[Bindable]public static var version:String = '1.09.08.30a';
 			
+			
+			//
+			// Connected to 4D V11 SQL, get the list of Teams in the database
+			//
 			private function handleConnect(e:SQLEvent):void {
 				var fieldList:XML = <columns>
 										<column name="ID">{Team.kID}</column>
@@ -84,8 +93,9 @@
 				<mx:DataGridColumn dataField="Name" headerText="Last Name" width="70"/>
 				<mx:DataGridColumn dataField="Age" headerText="Age" width="30"/>
 				<mx:DataGridColumn dataField="PlayerPosition" headerText="Position" width="50" fontWeight="bold" color="blue"/>
-				<mx:DataGridColumn dataField="YOBSQL" headerText="Birth Year" width="50" fontWeight="bold" color="blue"/>
-				<mx:DataGridColumn dataField="FullName" headerText="Full Name" width="70" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="YOB" headerText="Birth Year" width="50" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="FullName" headerText="Full Name (sql)" width="70" fontWeight="bold" color="blue"/>
+				<mx:DataGridColumn dataField="calcFullName" headerText="Full Name (calc)" width="70" fontWeight="bold" color="blue"/>
 				<mx:DataGridColumn dataField="Bats" headerText="Bats" width="30"/>
 				<mx:DataGridColumn dataField="Throws" headerText="Throws" width="30"/>
 				<!-- 
