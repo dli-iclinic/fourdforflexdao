@@ -12,4 +12,4 @@ Add your content here.  Format your content with:
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
 
-[http://fourdforflexdao.googlecode.com/svn/trunk/fourdforflexdao/docs/index.html asdoc stuff]
+[http://www.4ctv.com/4DFFDAO/ASDoc/index.html asdoc stuff]
