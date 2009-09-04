@@ -6,7 +6,7 @@
 <libraryPathEntry kind="4" path=""/>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
 <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/4DforFlex"/>
-<libraryPathEntry kind="3" linkType="1" path="/FoudForFlexDAO/bin/FoudForFlexDAO.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/FourdForFlexDAO/bin/FourdForFlexDAO.swc" useDefaultLinkType="false"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>

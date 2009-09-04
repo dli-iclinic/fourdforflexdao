@@ -6,9 +6,11 @@
 <libraryPathEntry kind="4" path=""/>
 <libraryPathEntry kind="1" linkType="1" path="libs"/>
 <libraryPathEntry kind="1" linkType="1" path="${DOCUMENTS}/4DforFlex"/>
-<libraryPathEntry kind="3" linkType="1" path="/FoudForFlexDAO/bin/FoudForFlexDAO.swc" useDefaultLinkType="false"/>
+<libraryPathEntry kind="3" linkType="1" path="/FourdForFlexDAO/bin/FourdForFlexDAO.swc" sourcepath="/FoudForFlexDAO" useDefaultLinkType="false"/>
 </libraryPath>
-<sourceAttachmentPath/>
+<sourceAttachmentPath>
+<sourceAttachmentPathEntry kind="3" linkType="1" path="/FourdForFlexDAO/bin/FourdForFlexDAO.swc" sourcepath="/FoudForFlexDAO" useDefaultLinkType="false"/>
+</sourceAttachmentPath>
 </compiler>
 <applications>
 <application path="Sample4DFFDAO.mxml"/>
