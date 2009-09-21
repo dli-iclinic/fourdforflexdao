@@ -5,6 +5,7 @@
 
 	<mx:Script>
 		<![CDATA[
+			import com.flex44d.DAO.Team;
 			import com.flex44d.DAO.PlayerExtended;
 			import mx.controls.Alert;
 			import mx.collections.ArrayCollection;
@@ -26,6 +27,10 @@
 										<column name="ID">{Team.kID}</column>
 										<column name="Name">{Team.kName}</column>
 									</columns>;
+									
+				// set 4D connection handle
+				DataModelBase.fourDConnection = my4D;
+				
 				DataModelBase.getRecordList(Team,'',gotTeamRecords,fieldList);
 			}
 			private function gotTeamRecords(recs:ArrayCollection):void {
@@ -66,11 +71,10 @@
 		showBusyCursor="true"/>
 
 	
+	
 	<!-- 
-		declare VOs for Team & Player
+		And here is our visible stuff
 	-->
-	<DAO:Team id="myTeam" fourDConnection="{my4D}"/>
-	<DAO:Player id="myPlayer" fourDConnection="{my4D}"/>
 	
 	<mx:Label x="0" y="0" text="4D for Flex DAO Sample" fontSize="27" fontWeight="bold"/>
 	<mx:Label y="39" text="{teamList.selectedItem.Name}" fontSize="27" fontWeight="bold" horizontalCenter="0" textAlign="center"/>
@@ -82,7 +86,7 @@
 				the Teams list.
 				when a line is selected or the line selection changes we call method teamSelected().
 			-->
-			<mx:List id="teamList" height="100%" width="100%" labelField="Name" click="teamSelected();"
+			<mx:List id="teamList" height="100%" width="100%" labelField="Name" change="teamSelected();"
 				/>
 
 		</mx:VBox>
