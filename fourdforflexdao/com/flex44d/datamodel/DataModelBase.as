@@ -87,6 +87,21 @@ package com.flex44d.datamodel
 		
 
 		//-------------------
+		// Static Properties
+		//-------------------
+		
+		/**
+		 * 4D SQL Service pointing to a fourd.SQLService instance.
+		 * 
+		 * You must set this property directly or indirectly via a VO object.
+		 * 
+		 */
+		public static function set fourDConnection(v:SQLService):void {
+			_v11Connection = v;
+			_v11Connection.prefetch = -1;				// try to retrieve all records all the time, no paging for now (does not seem to work though!)
+		}
+
+		//-------------------
 		// Overridable Properties
 		//-------------------
 		/**
@@ -103,8 +118,7 @@ package com.flex44d.datamodel
 		 * 4D SQL Service pointing to a fourd.SQLService instance.
 		 */
 		public function set fourDConnection(v:SQLService):void {
-			_v11Connection = v;
-			_v11Connection.prefetch = -1;				// try to retrieve all records all the time, no paging for now (does not seem to work though!)
+			DataModelBase.fourDConnection = v;
 		}
 		
 		

@@ -54,7 +54,7 @@ if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Cl
 <th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
 </tr>
 <tr class="">
-<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fourDConnection">fourDConnection</a> : SQLService<div class="summaryTableDescription">[write-only]
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#fourDConnection">fourDConnection</a> : SQLService<div class="summaryTableDescription">[static][write-only]
    4D SQL Service pointing to a fourd.SQLService instance.</div>
 </td><td class="summaryTableOwnerCol">DataModelBase</td>
 </tr>
@@ -230,6 +230,9 @@ showHideInherited();
 <div class="detailBody">
 <code>fourDConnection:SQLService</code>&nbsp;&nbsp;[write-only]<p>
    4D SQL Service pointing to a fourd.SQLService instance.
+   
+   You must set this property directly or indirectly via a VO object.
+   
    </p><p>This property can be used as the source for data binding.</p>
 <span class="label">Implementation</span>
 <br>
