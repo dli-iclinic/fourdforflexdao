@@ -66,7 +66,18 @@ package com.flex44d.datamodel
 	 *  - update ASDoc documentation
 	 *  - fix bug with calculated columns
 	 * 
+	 * 3.09.09.30a - julio, Sep 30, 2009
+	 *  - move event declaration to its right place, outside the class
+	 * 
 	 *********************************************************/	
+
+	//-------------------
+	// Events
+	//-------------------
+	/**
+	 * dispatched when a record has been loaded 
+	 */
+	[Event(name='loaded', type='flash.events.Event')]
 	
 	[Bindable]
 	public class DataModelBase extends EventDispatcher
@@ -74,15 +85,7 @@ package com.flex44d.datamodel
 		//--------------------------------------
 		//  Version...
 		//--------------------------------------
-		public static var version:String = "1.09.08.30a";					// DataModelBase Version MUST be updated
-
-		//-------------------
-		// Events
-		//-------------------
-		/**
-		 * dispatched when a record has been loaded 
-		 */
-		[Event(name='loaded', type='flash.events.Event')]
+		public static var version:String = "1.09.09.30a";					// DataModelBase Version MUST be updated
 		public static const LOADED:String = 'loaded';
 		
 
