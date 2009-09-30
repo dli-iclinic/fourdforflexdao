@@ -5,7 +5,7 @@ package com.flex44d.DAO
 		public function PlayerExtended()
 		{
 			super();
-			_tableDescription.appendChild(<field name="PlayerPosition" longname="PlayerPosition.Name" type="text" isrelated="true"/>);
+			_tableDescription.appendChild(<field name="PlayerPosition" longname="PlayerPosition.Name" type="text" isrelated="true" joinFK="Player.ID_Position" joinPK="PlayerPosition.ID"/>);
 			_tableDescription.appendChild(<field name="YOB" formula="YEAR(Current_Date())-Player.Age" type="int"/>);
 			_tableDescription.appendChild(<field name="FullName" formula="CONCAT(CONCAT(Player.First_Name,' '),Player.Name)" type="text"/>);
 		}
