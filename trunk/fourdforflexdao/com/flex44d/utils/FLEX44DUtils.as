@@ -27,8 +27,10 @@ package com.flex44d.utils
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.events.KeyboardEvent;
+	import flash.external.ExternalInterface;
 	import flash.ui.Keyboard;
 	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
 	
 	import mx.controls.DateField;
 	import mx.controls.Image;
@@ -296,6 +298,33 @@ package com.flex44d.utils
         private static function setImage(loader:Loader, img:Image):void {
         	if (loader.content) img.source = Bitmap(loader.content) else img.callLater(setImage,[loader,img]);
         }
+
+		
+
+		/**
+		 * Get external (browser) URL parameters used to activate the app (query string)
+		 *  
+		 * @return a dictionary with the parsed query string
+		 * 
+		 */
+		public static function getUrlParamateres():Dictionary {
+		   var urlParams:Dictionary = new Dictionary(); 
+		
+		   var fullUrl:String = ExternalInterface.call('eval','document.location.href')
+		
+		   var paramStr:String = fullUrl.split('?')[1];
+		   if (paramStr != null)
+		    {
+		        var params:Array = paramStr.split('&');
+		        for (var i:int = 0; i < params.length; i++)
+		       {
+		            var kv:Array = params[i].split('=');
+		            urlParams[kv[0]] = kv[1];
+		        }
+		    } 
+		
+		    return urlParams;
+		}
 
 	}
 }
